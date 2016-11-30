@@ -1,35 +1,21 @@
-package org.firstinspires.ftc.teamcode;
-
+package org.firstinspires.ftc.robotcontroller.external.samples;
 
 
 import android.graphics.Color;
-
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import com.qualcomm.robotcore.hardware.ColorSensor;
-
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
-
-import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-
-@Autonomous(name="Blue_100", group="Linear Opmode")
+@Autonomous(name="Blue_100", group="Pushbot")
 
 public class Blue_100 extends LinearOpMode {
-
+    RobotDeclarations robot = new RobotDeclarations(){};
     @Override
 
     public void runOpMode() throws InterruptedException {
@@ -44,7 +30,7 @@ public class Blue_100 extends LinearOpMode {
 
          */
 
-
+        robot.init(hardwareMap);
 
         right  = hardwareMap.dcMotor.get("right_drive");
 
@@ -64,9 +50,16 @@ public class Blue_100 extends LinearOpMode {
 
         linefront = hardwareMap.colorSensor.get("line front");
 
-        colorl = hardwareMap.colorSensor.get("color r");
+        //colorl = hardwareMap.colorSensor.get("color l");
+
 
         colorr = hardwareMap.colorSensor.get("color r");
+        colorr.setI2cAddress(I2cAddr.create7bit(0x1e));
+        lineback.setI2cAddress(I2cAddr.create7bit(0x26));
+        linefront.setI2cAddress(I2cAddr.create7bit(0x2e));
+        //line front = 0x2e
+        // line back = 0x26
+        // color r = 0x1e
 
         /*rangell = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range ll");
 
@@ -128,51 +121,48 @@ public class Blue_100 extends LinearOpMode {
 
         // set initial value for servos
 
-        servol.setPosition(0);
+        //servol.setPosition(0);
 
-        servor.setPosition(0);
+        //servor.setPosition(0);
+        //colorr.enableLed(false);
 
 
 
         // Wait for the game to start (driver presses PLAY)
 
         waitForStart();
+        linefollow(5);
+        right.setPower(0);
+        left.setPower(0);
 
 
+        //linefront.enableLed(true); // turn on line following sensors
 
-        linefront.enableLed(true); // turn on line following sensors
-
-        lineback.enableLed(true);
-
-
-
-        colorl.enableLed(false); // turn off leds for color
-
-        colorr.enableLed(false); // turn off leds for color
+        //lineback.enableLed(true);
 
 
 
         // Drive forwards
 
-        //right.setPower(0.5);
+        /*right.setPower(0.7);
 
-        //left.setPower(0.5);
+        left.setPower(0.7);
 
 
 
         Stopwatch(); // start the timer
 
+        /*
+        while(true) {
+           Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
+           telemetry.addData("saturation:", hsvlinefront[1]);
+          telemetry.addData("value:", hsvlinefront[2]);
+          telemetry.update();
+        }*/
 
-while(true) {
-    Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
-    telemetry.addData("saturation:", hsvlinefront[1]);
-    telemetry.addData("value:", hsvlinefront[2]);
-    telemetry.update();
-}
 
 
-
-        /*while(hsvlinefront[1] < 0.5 || hsvlinefront[2] < 0.6) // while front line following sensor does not see the tape
+        /*while(hsvlinefront[2] < 0.3) // while front line following sensor does not see the tape
 
         {
 
@@ -180,7 +170,7 @@ while(true) {
 
             currenttime = elapsedTime(); // set variable = to current time
 
-            if(currenttime > 1) // if 1 seconds have passed
+            if(currenttime > 2) // if 2 seconds have passed
 
             {
 
@@ -190,15 +180,46 @@ while(true) {
 
             }
 
-        }*/
+        }
 
         // stop motors
 
-        //right.setPower(0);
+        right.setPower(0);
+        left.setPower(0);
 
-        //left.setPower(0);
+        sleep(500);
 
+        right.setPower(-0.2);
+        left.setPower(-0.2);
 
+        Stopwatch();
+
+        while(hsvlineback[2] < 0.3 && hsvlinefront[2] < 0.3) // while front line following sensor does not see the tape
+
+        {
+
+            Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
+
+            currenttime = elapsedTime(); // set variable = to current time
+
+            if(currenttime > 2) // if 2 seconds have passed
+
+            {
+
+                fail = true; // program failed due to not finding the line
+
+                break;
+
+            }
+
+        }
+
+        // stop motors
+
+        right.setPower(0);
+        left.setPower(0);
+
+*/
 
         /*if(!fail) // if the line was found
 
@@ -431,7 +452,7 @@ while(true) {
         //left.setPower(0);
 
         //slide.setPower(0);
-
+        stop();
     }
 
 
@@ -720,7 +741,7 @@ while(true) {
 
 
 
-    /*public void linefollow(int shutoff) // line following function
+    public void linefollow(int shutoff) // line following function
 
     {
 
@@ -738,7 +759,7 @@ while(true) {
 
             currenttime = elapsedTime(); // set variable = to current time
 
-            if(rangerl.getDistance(DistanceUnit.CM) <= 4 && rangerr.getDistance(DistanceUnit.CM) <= 4) // if both distance sensors are within 4cm of the beacon
+            /*if(rangerl.getDistance(DistanceUnit.CM) <= 4 && rangerr.getDistance(DistanceUnit.CM) <= 4) // if both distance sensors are within 4cm of the beacon
 
             {
 
@@ -750,9 +771,9 @@ while(true) {
 
                 break;
 
-            }
+            }*/
 
-            else if (currenttime > shutoff) // if too many seconds have passed
+            if (currenttime > shutoff) // if too many seconds have passed
 
             {
 
@@ -960,4 +981,6 @@ while(true) {
 
     }*/
 
+   // public void stop{}
 }
+
