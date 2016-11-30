@@ -19,8 +19,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.RobotDeclarations;
 
 public class Blue_101 extends LinearOpMode {
     RobotDeclarations robot = new RobotDeclarations(){};
+    RobotFunctions function = new RobotFunctions();
     @Override
-
     public void runOpMode() throws InterruptedException {
         //wait for start
         waitForStart();
@@ -112,21 +112,21 @@ public class Blue_101 extends LinearOpMode {
 
                     {
 
-                        servor.setPosition(0.25); // press left button
+                        robot.servor.setPosition(0.25); // press left button
 
                         wait(500);
 
-                        servor.setPosition(0); // release button
+                        robot.servor.setPosition(0); // release button
 
-                    } else if (colorr.blue() < colorr.red()) // if right button is red
+                    } else if (robot.colorr.blue() < robot.colorr.red()) // if right button is red
 
                     {
 
-                        servor.setPosition(0.25); // press left button
+                        robot.servor.setPosition(0.25); // press left button
 
                         wait(500);
 
-                        servor.setPosition(0); // release button
+                        robot.servor.setPosition(0); // release button
 
                     }
 
@@ -138,9 +138,9 @@ public class Blue_101 extends LinearOpMode {
 
                     // Drive forwards
 
-                    right.setPower(1);
+                    robot.right.setPower(1);
 
-                    left.setPower(1);
+                    robot.left.setPower(1);
 
 
 
@@ -152,7 +152,7 @@ public class Blue_101 extends LinearOpMode {
 
 
 
-                    Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
+                    Color.RGBToHSV(linefront.red() * 8, robot.linefront.green() * 8, robot.linefront.blue() * 8, hsvlinefront); // get color value in HSV
 
 
 
@@ -160,7 +160,7 @@ public class Blue_101 extends LinearOpMode {
 
                     {
 
-                        Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
+                        Color.RGBToHSV(robot.linefront.red() * 8, robot.linefront.green() * 8, robot.linefront.blue() * 8, hsvlinefront); // get color value in HSV
 
                         currenttime = elapsedTime(); // set variable = to current time
 
@@ -180,9 +180,9 @@ public class Blue_101 extends LinearOpMode {
 
                     // stop motors
 
-                    right.setPower(0);
+                    robot.right.setPower(0);
 
-                    left.setPower(0);
+                    robot.left.setPower(0);
 
 
 
@@ -200,9 +200,9 @@ public class Blue_101 extends LinearOpMode {
 
                         // Drive forwards
 
-                        right.setPower(-1);
+                        robot.right.setPower(-1);
 
-                        left.setPower(-1);
+                        robot.left.setPower(-1);
 
 
 
@@ -214,7 +214,7 @@ public class Blue_101 extends LinearOpMode {
 
 
 
-                        Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
+                        Color.RGBToHSV(robot.lineback.red() * 8, robot.lineback.green() * 8, robot.lineback.blue() * 8, hsvlineback); // get color value in HSV
 
 
 
@@ -222,7 +222,7 @@ public class Blue_101 extends LinearOpMode {
 
                         {
 
-                            Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
+                            Color.RGBToHSV(robot.lineback.red() * 8, robot.lineback.green() * 8, robot.lineback.blue() * 8, hsvlineback); // get color value in HSV
 
                             currenttime = elapsedTime(); // set variable = to current time
 
@@ -248,7 +248,7 @@ public class Blue_101 extends LinearOpMode {
 
                             // turn right 90 degrees
 
-                            turnright(1000, 0.75);
+                            function.turnright(1000, 0.75);
 
 
 
@@ -257,10 +257,12 @@ public class Blue_101 extends LinearOpMode {
 
 
                             // drive backwards
+*/
 
-                            backwards(1000, 0.75);
+                            function.backwards(1000, 0.75);
 
 
+/*
 
                             ////////////SCORE PARTICLES IN CENTER VORTEX//////////////////////////////////////////////////
 
@@ -302,24 +304,24 @@ public class Blue_101 extends LinearOpMode {
 
             }
 
-        }*/
+        }
 
-        //change modes of motors and stop to end program or for safety
+        change modes of motors and stop to end program or for safety
 
-        //right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
 
-        //right.setPower(0);
+        robot.right.setPower(0);
 
-        //left.setPower(0);
+        robot.left.setPower(0);
 
-        //slide.setPower(0);
-
+        robot.slide.setPower(0);
+        */
     }
 
 
@@ -360,215 +362,8 @@ public class Blue_101 extends LinearOpMode {
 
 
 
-    public void forwards(int ticks, double speed) // function for forwards
-
-    {
-
-        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.right.setTargetPosition(ticks);
-
-        robot.left.setTargetPosition(ticks);
-
-        robot.right.setPower(speed);
-
-        robot.left.setPower(speed);
-
-
-
-        while(robot.right.isBusy() && robot.left.isBusy())
-
-        {
-
-
-
-        }
-
-        robot.right.setPower(0);
-
-        robot.left.setPower(0);
-
-    }
-
-
-
-    public void backwards(int ticks, double speed) // function for backwards
-
-    {
-
-        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.right.setTargetPosition(-ticks);
-
-        robot.left.setTargetPosition(-ticks);
-
-        robot.right.setPower(speed);
-
-        robot.left.setPower(speed);
-
-
-
-        while(robot.right.isBusy() && robot.left.isBusy())
-
-        {
-
-
-
-        }
-
-        robot.right.setPower(0);
-
-        robot.left.setPower(0);
-
-    }
-
-
-
-    public void turnright(int ticks, double speed) // function for turning right
-
-    {
-
-        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.right.setTargetPosition(-ticks);
-
-        robot.left.setTargetPosition(ticks);
-
-        robot.right.setPower(speed);
-
-        robot.left.setPower(speed);
-
-
-
-        while(robot.right.isBusy() && robot.left.isBusy())
-
-        {
-
-
-
-        }
-
-        robot.right.setPower(0);
-
-        robot.left.setPower(0);
-
-    }
-
-
-
-    public void turnleft(int ticks, double speed) // function for turning left
-
-    {
-
-        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.right.setTargetPosition(ticks);
-
-        robot.left.setTargetPosition(-ticks);
-
-        robot.right.setPower(speed);
-
-        robot.left.setPower(speed);
-
-
-
-        while(robot.right.isBusy() && robot.left.isBusy())
-
-        {
-
-
-
-        }
-
-        robot.right.setPower(0);
-
-        robot.left.setPower(0);
-
-    }
-
-
-
-    public void slideright(int ticks, double speed) // function for sliding right
-
-    {
-
-        robot.slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.slide.setTargetPosition(ticks);
-
-        robot.slide.setPower(speed);
-
-
-
-        while(robot.slide.isBusy())
-
-        {
-
-
-
-        }
-
-        robot.slide.setPower(0);
-
-    }
-
-
-
-    public void slideleft(int ticks, double speed) // function for sliding left
-
-    {
-
-        robot.slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.slide.setTargetPosition(-ticks);
-
-        robot.slide.setPower(speed);
-
-
-
-        while(robot.slide.isBusy())
-
-        {
-
-
-
-        }
-
-        robot.slide.setPower(0);
-
-    }
-
-
-
-    /*public void linefollow(int shutoff) // line following function
+    /*
+    public void linefollow(int shutoff) // line following function
 
     {
 
@@ -586,15 +381,15 @@ public class Blue_101 extends LinearOpMode {
 
             currenttime = elapsedTime(); // set variable = to current time
 
-            if(rangerl.getDistance(DistanceUnit.CM) <= 4 && rangerr.getDistance(DistanceUnit.CM) <= 4) // if both distance sensors are within 4cm of the beacon
+            if(robot.rangerl.getDistance(DistanceUnit.CM) <= 4 && robot.rangerr.getDistance(DistanceUnit.CM) <= 4) // if both distance sensors are within 4cm of the beacon
 
             {
 
-                right.setPower(0);
+                robot.right.setPower(0);
 
-                left.setPower(0);
+                robot.left.setPower(0);
 
-                slide.setPower(0);
+                robot.slide.setPower(0);
 
                 break;
 
@@ -614,9 +409,9 @@ public class Blue_101 extends LinearOpMode {
 
             {
 
-                right.setPower(0.75);
+                robot.right.setPower(0.75);
 
-                left.setPower(-0.25);
+                robot.left.setPower(-0.25);
 
             }
 
@@ -624,9 +419,9 @@ public class Blue_101 extends LinearOpMode {
 
             {
 
-                right.setPower(-0.75);
+                robot.right.setPower(-0.75);
 
-                left.setPower(0.25);
+                robot.left.setPower(0.25);
 
             }
 
@@ -634,9 +429,9 @@ public class Blue_101 extends LinearOpMode {
 
             {
 
-                right.setPower(0);
+                robot.right.setPower(0);
 
-                left.setPower(0);
+                robot.left.setPower(0);
 
             }
 
@@ -646,7 +441,7 @@ public class Blue_101 extends LinearOpMode {
 
 
 
-    /*public void alignandpressright(int shutoff) // presses buttons on the right side
+    public void alignandpressright(int shutoff) // presses buttons on the right side
 
     {
 
@@ -668,15 +463,15 @@ public class Blue_101 extends LinearOpMode {
 
             }
 
-            else if(rangerl.getDistance(DistanceUnit.CM) -  rangerr.getDistance(DistanceUnit.CM) < 1 && rangerl.getDistance(DistanceUnit.CM) -  rangerr.getDistance(DistanceUnit.CM) > -1) // if the robot is angled straight
+            else if(robot.rangerl.getDistance(DistanceUnit.CM) -  robot.rangerr.getDistance(DistanceUnit.CM) < 1 && robot.rangerl.getDistance(DistanceUnit.CM) -  robot.rangerr.getDistance(DistanceUnit.CM) > -1) // if the robot is angled straight
 
             {
 
-                if(rangerl.getDistance(DistanceUnit.CM) < 2.5 && rangerl.getDistance(DistanceUnit.CM) > 2) // if the robot is the correct distance
+                if(robot.rangerl.getDistance(DistanceUnit.CM) < 2.5 && robot.rangerl.getDistance(DistanceUnit.CM) > 2) // if the robot is the correct distance
 
                 {
 
-                    slide.setPower(0); // stop sliding
+                    robot.slide.setPower(0); // stop sliding
 
                     if(((hsvlinefront[1] > 0.3 || hsvlinefront[2] < 0.7) && (hsvlineback[1] > 0.3 || hsvlineback[2] < 0.7)) || ((hsvlineback[1] <= 0.3 && hsvlineback[2] >= 0.7) && (hsvlinefront[1] <= 0.3 && hsvlinefront[2] >= 0.7))) // if both or neither line following sensor sees tape
 
@@ -736,7 +531,7 @@ public class Blue_101 extends LinearOpMode {
 
                     backleft.setPower(0);
 
-                    slide.setPower(0.5); // slide right
+                    robot.slide.setPower(0.5); // slide right
 
                 }
 
@@ -752,7 +547,7 @@ public class Blue_101 extends LinearOpMode {
 
                     backleft.setPower(0);
 
-                    slide.setPower(-0.5); // slide left
+                    robot.slide.setPower(-0.5); // slide left
 
                 }
 
@@ -772,7 +567,7 @@ public class Blue_101 extends LinearOpMode {
 
                 backleft.setPower(-0.5);
 
-                slide.setPower(0);
+                robot.slide.setPower(0);
 
             }
 
@@ -790,13 +585,13 @@ public class Blue_101 extends LinearOpMode {
 
                 backleft.setPower(0.5);
 
-                slide.setPower(0);
+                robot.slide.setPower(0);
 
             }
 
         }
 
-    }*/
+    }
 
 
 
