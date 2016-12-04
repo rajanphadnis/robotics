@@ -1,49 +1,70 @@
 //rajan's includes
-/*package org.firstinspires.ftc.robotcontroller.external.samples;
 
+package org.firstinspires.ftc.robotcontroller.external.samples;
 
 import android.graphics.Color;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit; // need this for distance sensors, may need to fix file location*/
 
-//KJ's includes
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import com.qualcomm.robotcore.hardware.ColorSensor;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+import com.qualcomm.robotcore.hardware.I2cAddr;
+
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+
+/*KJ's includes
+
 package org.firstinspires.ftc.teamcode;
 
 import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import com.qualcomm.robotcore.hardware.ColorSensor;
+
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import com.qualcomm.robotcore.hardware.Servo;
+
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
-import com.qualcomm.robotcore.hardware.I2cAddr;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import com.qualcomm.robotcore.hardware.I2cAddr;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 import com.qualcomm.robotcore.util.ElapsedTime;
+*/
+
 
 @Autonomous(name="Blue_100", group="Pushbot")
 
 public class Blue_100 extends LinearOpMode {
+
     @Override
 
     public void runOpMode() throws InterruptedException {
 
-
-
-        /* eg: Initialize the hardware variables. Note that the strings used here as parameters
-         * to 'get' must correspond to the names assigned during the robot configuration
-         * step (using the FTC Robot Controller app on the phone).
-         */
-
         //RAJANS THING
+
         //robot.init(hardwareMap);
+
+
 
         right  = hardwareMap.dcMotor.get("right_drive");
 
@@ -63,22 +84,29 @@ public class Blue_100 extends LinearOpMode {
 
         linefront = hardwareMap.colorSensor.get("line front");
 
-        rangerl = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range rl");
-
-        rangerr = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range rr");
+        rangesensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range sensor");
 
         colorr = hardwareMap.colorSensor.get("color r");
 
         colorr.setI2cAddress(I2cAddr.create7bit(0x1e));
+
         lineback.setI2cAddress(I2cAddr.create7bit(0x26));
+
         linefront.setI2cAddress(I2cAddr.create7bit(0x2e));
-        rangerl.setI2cAddress(I2cAddr.create7bit(0x36));
-        rangerr.setI2cAddress(I2cAddr.create7bit(0x3e));
+
+        //colorl.setI2cAddress(I2cAddr.create7bit(0x36));
+
+
+
         // color r = 0x1e (0x3c in 8 bit)
+
         // line back = 0x26 (0x4c in 8 bit)
+
         //line front = 0x2e (0x5c in 8 bit)
-        // range rl = 0x36 (0x6c in 8 bit)
-        //range rr = 0x3e (0x7c in 8 bit)
+
+        // color l = 0x36 (0x6c in 8 bit)
+
+
 
         // "Reverse" the motor that runs backwards when connected directly to the battery
 
@@ -92,8 +120,6 @@ public class Blue_100 extends LinearOpMode {
 
         rightarm.setDirection(DcMotor.Direction.FORWARD);
 
-
-
         // set brakes to on
 
         right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -106,8 +132,6 @@ public class Blue_100 extends LinearOpMode {
 
         rightarm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
-
         // reset encoder positions
 
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -115,8 +139,6 @@ public class Blue_100 extends LinearOpMode {
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
 
         // Set main drive motos to run using encoders
 
@@ -130,214 +152,403 @@ public class Blue_100 extends LinearOpMode {
 
         servor.setPosition(0);
 
+        // turn on color sensors
+
+        linefront.enableLed(true);
+
+        lineback.enableLed(true);
+        colorr.enableLed(true);
+
+
+
+
+        //colorl.enableLed(true);
+
         // Wait for the game to start (driver presses PLAY)
+
+
 
         waitForStart();
 
-        linefront.enableLed(true); // turn on line following sensors
-
-        lineback.enableLed(true);
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /*while(true)
+
+        {
+
+            telemetry.addData("right distance (cm) = ", rangesensor.getDistance(DistanceUnit.CM));
+
+            telemetry.update();
+
+
+
+            if(false)
+
+            {
+
+                break;
+
+            }
+
+        }*/
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+        // stop motors
+
+        forwards(2400, .4);
+        sleep(500);
+        turnleft(350, .4);
+        sleep(500);
+
+        //sleep(500);
         // Drive forwards
 
-        /*right.setPower(0.7);
-        left.setPower(0.7);
-        Stopwatch(); // start the timer
 
-        /*while(hsvlinefront[2] < 0.3) // while front line following sensor does not see the tape
-        {
-            Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
-            currenttime = elapsedTime(); // set variable = to current time
-            if(currenttime > 2) // if 2 seconds have passed
-            {
-                fail = true; // program failed due to not finding the line
-                break;
-            }
-        }
-        // stop motors
-        right.setPower(0);
-        left.setPower(0);
-        wait(500);
-        right.setPower(-0.2);
-        left.setPower(-0.2);
-        Stopwatch();
-        Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
+        right.setPower(0.5);
+        left.setPower(0.5);
+
+        Stopwatch(); // start the timer
         Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
-        while(hsvlineback[2] < 0.3 && hsvlinefront[2] < 0.3) // while front line following sensor does not see the tape
+        while(hsvlinefront[2] < 0.3) // while front line following sensor does not see the tape
+
         {
-            Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
+
+            Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
+
             currenttime = elapsedTime(); // set variable = to current time
-            if(currenttime > 2) // if 2 seconds have passed
+
+
+
+            if(currenttime > 6) // if 2 seconds have passed
+
             {
+
                 fail = true; // program failed due to not finding the line
+                left.setPower(0);
+                right.setPower(0);
                 break;
+
             }
+
         }
-        // stop motors
-        slide.setPower(0);
-        right.setPower(0);
         left.setPower(0);
-*/
+        right.setPower(0);
+
+
+
 
         if(!fail) // if the line was found
+
         {
-            //wait(750);// wait 3/4 second
+
+            sleep(500);// wait 3/4 second
+
             linefollowright(3); // follow the line for max of 5 seconds
-            /*if(!fail) // if the beacon was found
+
+            colorr.enableLed(false);
+            if (colorr.blue() > colorr.red()) // if left button is blue
+
             {
-                wait(750);
-                alignandpressright(5); // press buttons
-                if(!fail) // if the robot is aligned
+                backwards(200, .4);
+                telemetry.addData("color", "blue");
+                telemetry.update();
+            }
+            else if (colorr.blue() < colorr.red()) // if left button is blue
+
+            {
+                backwards(350, .4);
+                telemetry.addData("color", "red");
+                telemetry.update();
+            }
+            else
+
+            {
+                forwards(400, .4);
+                telemetry.addData("color", "fail");
+                telemetry.update();
+            }
+            slideright(700, .4);
+
+            if (!fail) // if the beacon was found
+
+            {
+
+                sleep(500);
+
+                //alignandpressright(5); // press buttons
+
+
+
+                /*if (!fail) // if the robot is aligned
+
                 {
+
                     if (colorr.blue() > colorr.red()) // if left button is blue
+
                     {
-                        servor.setPosition(0.25); // press left button
+
+
                         wait(500);
-                        servor.setPosition(0); // release button
+
                     } else if (colorr.blue() < colorr.red()) // if left button is red
+
                     {
-                        forwards(500, .5);
-                        wait(500);
-                        servor.setPosition(0.25); // press left button
-                        wait(500);
-                        servor.setPosition(0); // release button
-                        wait(250);
                     }
+
                     // Drive forwards
+
                     right.setPower(0.7);
+
                     left.setPower(0.7);
+
                     wait(500); // wait 1/2 second
+
                     Stopwatch(); // start the timer
+
                     Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
-                    while(hsvlinefront[2] < 0.3) // while front line following sensor does not see the tape
+
+
+
+                    while (hsvlinefront[2] < 0.3) // while front line following sensor does not see the tape
+
                     {
+
                         Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
+
                         currenttime = elapsedTime(); // set variable = to current time
-                        if(currenttime > 2) // if 2 seconds have passed
+
+
+
+                        if (currenttime > 2) // if 2 seconds have passed
+
                         {
+
                             fail = true; // program failed due to not finding the line
+
                             break;
+
                         }
+
                     }
+
                     // stop motors
+
                     right.setPower(0);
+
                     left.setPower(0);
+
                     wait(500);
+
                     right.setPower(-0.2);
+
                     left.setPower(-0.2);
+
                     Stopwatch();
+
                     Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
+
                     Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
-                    while(hsvlineback[2] < 0.3 && hsvlinefront[2] < 0.3) // while front line following sensor does not see the tape
+
+
+
+                    while (hsvlineback[2] < 0.3 && hsvlinefront[2] < 0.3) // while front line following sensor does not see the tape
+
                     {
+
                         Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
+
                         Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
+
                         currenttime = elapsedTime(); // set variable = to current time
-                        if(currenttime > 2) // if 2 seconds have passed
+
+
+
+                        if (currenttime > 2) // if 2 seconds have passed
+
                         {
+
                             fail = true; // program failed due to not finding the line
+
                             break;
+
                         }
+
                     }
+
                     slide.setPower(0);
+
                     right.setPower(0);
+
                     left.setPower(0);
+
                     wait(500);
+
+
 
                     if (!fail)
+
                     {
+
                         alignandpressright(5); // press button
+
                         wait(500);
+
                         // Drive backwards
 
-
                         right.setPower(-0.7);
+
                         left.setPower(-0.7);
+
                         wait(500); // wait 1/2 second
+
                         Stopwatch(); // start the timer
+
                         Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
-                        while(hsvlineback[2] < 0.3) // while back line following sensor does not see the tape
+
+
+
+                        while (hsvlineback[2] < 0.3) // while back line following sensor does not see the tape
+
                         {
+
                             Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
+
                             currenttime = elapsedTime(); // set variable = to current time
-                            if(currenttime > 2) // if 2 seconds have passed
-                           {
-                                fail = true; // program failed due to not finding the line
-                                break;
-                            }
-                        }
-                        // stop motors
-                        right.setPower(0);
-                        left.setPower(0);
-                        wait(500);
-                        right.setPower(0.2);
-                        left.setPower(0.2);
-                        Stopwatch();
-                        Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
-                        Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
-                        while(hsvlinefront[2] < 0.3 && hsvlineback[2] < 0.3) // while front line following sensor does not see the tape
-                        {
-                            Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
-                            Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
-                            currenttime = elapsedTime(); // set variable = to current time
-                            if(currenttime > 2) // if 2 seconds have passed
+
+
+
+                            if (currenttime > 2) // if 2 seconds have passed
+
                             {
-                               fail = true; // program failed due to not finding the line
-                               break;
+
+                                fail = true; // program failed due to not finding the line
+
+                                break;
+
                             }
+
                         }
-                        slide.setPower(0);
+
+                        // stop motors
+
                         right.setPower(0);
+
+                        left.setPower(0);
+
+                        wait(500);
+
+                        right.setPower(0.2);
+
+                        left.setPower(0.2);
+
+                        Stopwatch();
+
+                        Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
+
+                        Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
+
+
+
+                        while (hsvlinefront[2] < 0.3 && hsvlineback[2] < 0.3) // while front line following sensor does not see the tape
+
+                        {
+
+                            Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
+
+                            Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
+
+                            currenttime = elapsedTime(); // set variable = to current time
+
+
+
+                            if (currenttime > 2) // if 2 seconds have passed
+
+                            {
+
+                                fail = true; // program failed due to not finding the line
+
+                                break;
+
+                            }
+
+                        }
+
+                        slide.setPower(0);
+
+                        right.setPower(0);
+
                         left.setPower(0);
 
 
-                      }
-                        if(!fail) // if the line is found
+
+                        if (!fail) // if the line is found
+
                         {
+
                             wait(500); // wait 1/2 second
+
                             // turn right 90 degrees
+
                             turnright(1000, 0.75);
+
                             wait(500); // wait 1/2 second
+
                             // drive backwards
+
                             backwards(1000, 0.75);
+
                             ////////////SCORE PARTICLES IN CENTER VORTEX//////////////////////////////////////////////////
+
                             wait(500); // wait 1/2 second
+
                             // slide left
+
                             slideleft(1000, 0.75);
+
                             wait(500); // wait 1/2 second
+
                             // turn left 45 degrees
+
                             turnleft(1000, 0.75);
+
                             wait(500); // wait 1/2 second
+
                             // drive backwards into the ball
+
                             backwards(1000, 0.75);
+
                         }
+
                     }
-                }
-            }*/
+
+                }*/
+
+            }
+
         }
 
         //change modes of motors and stop to end program or for safety
 
-        //right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        right.setPower(0);
 
+        left.setPower(0);
 
-        //right.setPower(0);
+        slide.setPower(0);
 
-        //left.setPower(0);
-
-        //slide.setPower(0);
-        stop();
     }
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -365,13 +576,7 @@ public class Blue_100 extends LinearOpMode {
 
     ColorSensor colorr;
 
-    ModernRoboticsI2cRangeSensor rangell;
-
-    ModernRoboticsI2cRangeSensor rangelr;
-
-    ModernRoboticsI2cRangeSensor rangerl;
-
-    ModernRoboticsI2cRangeSensor rangerr;
+    ModernRoboticsI2cRangeSensor rangesensor;
 
 
 
@@ -387,12 +592,6 @@ public class Blue_100 extends LinearOpMode {
 
 
 
-    // functions
-
-
-
-    // function to start stopwatch
-
     public void Stopwatch() {
 
         start = System.currentTimeMillis();
@@ -401,9 +600,9 @@ public class Blue_100 extends LinearOpMode {
 
 
 
-    // function to read stopwatch
+    double elapsedTime()
 
-    double elapsedTime() {
+    {
 
         long now = System.currentTimeMillis();
 
@@ -439,13 +638,14 @@ public class Blue_100 extends LinearOpMode {
 
         {
 
-
-
         }
-
+        left.setPower(0);
         right.setPower(0);
 
-        left.setPower(0);
+
+        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
@@ -467,9 +667,9 @@ public class Blue_100 extends LinearOpMode {
 
         left.setTargetPosition(-ticks);
 
-        right.setPower(speed);
+        right.setPower(-speed);
 
-        left.setPower(speed);
+        left.setPower(-speed);
 
 
 
@@ -477,13 +677,14 @@ public class Blue_100 extends LinearOpMode {
 
         {
 
-
-
         }
 
         right.setPower(0);
 
         left.setPower(0);
+        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
@@ -505,7 +706,7 @@ public class Blue_100 extends LinearOpMode {
 
         left.setTargetPosition(ticks);
 
-        right.setPower(speed);
+        right.setPower(-speed);
 
         left.setPower(speed);
 
@@ -515,13 +716,14 @@ public class Blue_100 extends LinearOpMode {
 
         {
 
-
-
         }
 
         right.setPower(0);
 
         left.setPower(0);
+        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
@@ -545,7 +747,7 @@ public class Blue_100 extends LinearOpMode {
 
         right.setPower(speed);
 
-        left.setPower(speed);
+        left.setPower(-speed);
 
 
 
@@ -553,13 +755,15 @@ public class Blue_100 extends LinearOpMode {
 
         {
 
-
-
         }
 
         right.setPower(0);
 
         left.setPower(0);
+
+        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
@@ -583,11 +787,10 @@ public class Blue_100 extends LinearOpMode {
 
         {
 
-
-
         }
 
         slide.setPower(0);
+        slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
@@ -603,7 +806,7 @@ public class Blue_100 extends LinearOpMode {
 
         slide.setTargetPosition(-ticks);
 
-        slide.setPower(speed);
+        slide.setPower(-speed);
 
 
 
@@ -611,11 +814,10 @@ public class Blue_100 extends LinearOpMode {
 
         {
 
-
-
         }
 
         slide.setPower(0);
+        slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
@@ -627,29 +829,100 @@ public class Blue_100 extends LinearOpMode {
 
         Stopwatch(); // reset timer
 
-        slide.setPower(0.75);
+
+
+        slide.setPower(0.25);
+
         left.setPower(0);
+
         right.setPower(0);
+
+
+
+        boolean waveback = true;
+
+        double timenow;
+
+        double lasttime = elapsedTime();
+
+
 
         while(true) // infinite loop to line follow
 
         {
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            /*timenow = elapsedTime();
+
+            if(waveback)
+
+            {
+
+                left.setPower(0.5);
+
+                right.setPower(-.5);
+
+                if(timenow - lasttime > .1)
+
+                {
+
+                    waveback = false;
+
+                    lasttime = elapsedTime();
+
+                }
+
+            }
+
+            else
+
+            {
+
+                left.setPower(-0.5);
+
+                right.setPower(.5);
+
+                if(timenow - lasttime > .1)
+
+                {
+
+                    waveback = true;
+
+                    lasttime = elapsedTime();
+
+                }
+
+            }*/
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
             Color.RGBToHSV(lineback.red() * 8, lineback.green() * 8, lineback.blue() * 8, hsvlineback); // get color value in HSV
 
             Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
 
+
+
             currenttime = elapsedTime(); // set variable = to current time
 
-            /*if(rangerl.getDistance(DistanceUnit.CM) <= 4 && rangerr.getDistance(DistanceUnit.CM) <= 4) // if both distance sensors are within 4cm of the beacon
+
+
+            if(rangesensor.getDistance(DistanceUnit.CM) <= 13) // if  distance sensor is within 13cm of the wall
+
             {
+
                 right.setPower(0);
+
                 left.setPower(0);
+
                 slide.setPower(0);
+
+
                 break;
+
             }
 
-            else */if (currenttime > shutoff) // if too many seconds have passed
+            else if (currenttime > shutoff) // if too many seconds have passed
 
             {
 
@@ -663,15 +936,16 @@ public class Blue_100 extends LinearOpMode {
 
             {
 
-                right.setPower(0.25);
+                right.setPower(0.4);
 
             }
 
             else if(hsvlinefront[2] <= 0.3 && hsvlineback[2] > 0.3) // if front doesn't see tape and back does
-
             {
 
-                right.setPower(-0.25);
+                right.setPower(-0.4);
+                telemetry.addData("things", "are working");
+                telemetry.update();
 
             }
 
@@ -684,86 +958,143 @@ public class Blue_100 extends LinearOpMode {
             }
 
         }
+
         slide.setPower(0);
+
         right.setPower(0);
+
         left.setPower(0);
+
     }
+
+
 
     public void linefollowleft(int shutoff)
+
     {
+
         ////////////////// MUST BE FIXED ONCE OTHER FUNCTION WORKS ///////////////
+
     }
+
+
 
     public void alignandpressright(int shutoff) // presses buttons on the right side
+
     {
+
         Stopwatch();
+
         while(true) // infinite loop to align to buttons
+
         {
+
             currenttime = elapsedTime(); // set variable = to current time
+
+
+
             if(currenttime > shutoff) // if too many seconds have passed
+
             {
+
                 fail = true; // fail because unknown alignment
+
                 break;
+
             }
-            else if((rangerl.getDistance(DistanceUnit.CM) -  rangerr.getDistance(DistanceUnit.CM) < 1) && (rangerl.getDistance(DistanceUnit.CM) -  rangerr.getDistance(DistanceUnit.CM) > -1)) // if the robot is angled straight
+
+
+
+            else if(rangesensor.getDistance(DistanceUnit.CM) < 6 && rangesensor.getDistance(DistanceUnit.CM) > 4) // if the robot is the correct distance
+
             {
-                if(rangerl.getDistance(DistanceUnit.CM) < 2.5 && rangerl.getDistance(DistanceUnit.CM) > 2) // if the robot is the correct distance
+
+                slide.setPower(0); // stop sliding
+
+                if((hsvlinefront[2] <= 3 && hsvlineback[2] <= 3) || (hsvlinefront[2] > 3 && hsvlineback[2] > 3)) // if both or neither line following sensor sees tape
+
                 {
-                    slide.setPower(0); // stop sliding
-                    if((hsvlinefront[2] <= 3 && hsvlineback[2] <= 3) || (hsvlinefront[2] > 3 && hsvlineback[2] > 3)) // if both or neither line following sensor sees tape
-                    {
-                        right.setPower(0);
-                        left.setPower(0);
-                        break;
-                    }
-                    else if(hsvlinefront[2] > 0.3 && hsvlineback[2] <= 0.3) // if back doesn't see tape and front does
-                    {
-                        right.setPower(0.25);
-                        left.setPower(0.25);
-                    }
-                    else if(hsvlineback[2] > 0.3 && hsvlinefront[2] <= 0.3) // if front doesn't see tape and back does
-                    {
-                        right.setPower(-0.25);
-                        left.setPower(-0.25);
-                    }
-                }
-                else if(rangerl.getDistance(DistanceUnit.CM) >= 3) // if the robot is too far away
-                {
-                    right.setPower(0); // stop turning
+
+                    right.setPower(0);
+
                     left.setPower(0);
-                    slide.setPower(0.25); // slide right
+
+                    break;
+
                 }
-                else if(rangerl.getDistance(DistanceUnit.CM) <= 2) // if the robot is too close
+
+
+
+                else if(hsvlinefront[2] > 0.3 && hsvlineback[2] <= 0.3) // if back doesn't see tape and front does
+
                 {
-                    right.setPower(0); // stop turning
-                    left.setPower(0);
-                    slide.setPower(-0.25); // slide left
+
+                    right.setPower(0.25);
+
+                    left.setPower(0.25);
+
                 }
+
+
+
+                else if(hsvlineback[2] > 0.3 && hsvlinefront[2] <= 0.3) // if front doesn't see tape and back does
+
+                {
+
+                    right.setPower(-0.25);
+
+                    left.setPower(-0.25);
+
+                }
+
             }
-            else if(rangerl.getDistance(DistanceUnit.CM) -  rangerr.getDistance(DistanceUnit.CM) <= -1) // if the robot is facing right
+
+
+
+            else if(rangesensor.getDistance(DistanceUnit.CM) >= 6) // if the robot is too far away
+
             {
-                // turn left
-                right.setPower(0.25);
-                left.setPower(-0.25);
-                slide.setPower(0);
+
+                right.setPower(0); // stop turning
+
+                left.setPower(0);
+
+                slide.setPower(0.25); // slide right
+
             }
-            else if(rangerl.getDistance(DistanceUnit.CM) -  rangerr.getDistance(DistanceUnit.CM) >= 1) // if the robot is facing left
+
+
+
+            else if(rangesensor.getDistance(DistanceUnit.CM) <= 4) // if the robot is too close
+
             {
-                // turn right
-                right.setPower(-0.25);
-                left.setPower(0.25);
-                slide.setPower(0);
+
+                right.setPower(0); // stop turning
+
+                left.setPower(0);
+
+                slide.setPower(-0.25); // slide left
+
             }
+
         }
+
         right.setPower(0);
+
         left.setPower(0);
+
         slide.setPower(0);
+
     }
+
+
 
     public void alignandpressleft(int shutoff) // presses buttons on the left side
+
     {
+
         ////////////////// MUST BE FIXED ONCE OTHER FUNCTION WORKS ///////////////
+
     }
 
-    // public void stop{}
 }
