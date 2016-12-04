@@ -84,10 +84,13 @@ public class Blue_100 extends LinearOpMode {
             fail = true; // program failed due to not finding the line
             break;
             }
-            if (rangesensor.cmUltrasonic() < currentdistance) {
+            if (rangesensor.cmUltrasonic() < currentdistance)
+            {
             leftpower = leftpower - 0.1;
             rightpower = rightpower + 0.1;
-            } else if (rangesensor.cmUltrasonic() < currentdistance) {
+            }
+            else if (rangesensor.cmUltrasonic() < currentdistance)
+            {
             leftpower = leftpower + 0.1;
             rightpower = rightpower - 0.1;
             }
@@ -144,7 +147,9 @@ public class Blue_100 extends LinearOpMode {
                     if (rangesensor.cmUltrasonic() < currentdistance) {
                         leftpower = leftpower - 0.1;
                         rightpower = rightpower + 0.1;
-                    } else if (rangesensor.cmUltrasonic() < currentdistance) {
+                    }
+                    else if (rangesensor.cmUltrasonic() < currentdistance)
+                    {
                         leftpower = leftpower + 0.1;
                         rightpower = rightpower - 0.1;
                     }
@@ -359,17 +364,17 @@ public class Blue_100 extends LinearOpMode {
                 fail = true;
                 break;
             }
-            else if(hsvlinefront[2] > 0.3 && hsvlineback[2] <= 0.3) // if back doesn't see tape and front does
+            else if(hsvlinefront[2] > 0.5 && hsvlineback[2] <= 0.5) // if back doesn't see tape and front does
             {
                 right.setPower(0.4);
             }
-            else if(hsvlinefront[2] <= 0.3 && hsvlineback[2] > 0.3) // if front doesn't see tape and back does
+            else if(hsvlinefront[2] <= 0.5 && hsvlineback[2] > 0.5) // if front doesn't see tape and back does
             {
                 right.setPower(-0.4);
                 telemetry.addData("things", "are working");
                 telemetry.update();
             }
-            else if((hsvlinefront[2] <= 0.3 && hsvlineback[2] <= 0.3) || (hsvlinefront[2] > 0.3 && hsvlineback[2] > 0.3)) // if neither or both see the tape
+            else if((hsvlinefront[2] <= 0.5 && hsvlineback[2] <= 0.5) || (hsvlinefront[2] > 0.5 && hsvlineback[2] > 0.5)) // if neither or both see the tape
             {
                 right.setPower(0);
             }
