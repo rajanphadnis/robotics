@@ -89,7 +89,7 @@ public class Blue_100 extends LinearOpMode {
             leftpower = leftpower - 0.1;
             rightpower = rightpower + 0.1;
             }
-            else if (rangesensor.cmUltrasonic() < currentdistance)
+            else if (rangesensor.cmUltrasonic() > currentdistance)
             {
             leftpower = leftpower + 0.1;
             rightpower = rightpower - 0.1;
@@ -148,7 +148,7 @@ public class Blue_100 extends LinearOpMode {
                         leftpower = leftpower - 0.1;
                         rightpower = rightpower + 0.1;
                     }
-                    else if (rangesensor.cmUltrasonic() < currentdistance)
+                    else if (rangesensor.cmUltrasonic() > currentdistance)
                     {
                         leftpower = leftpower + 0.1;
                         rightpower = rightpower - 0.1;
