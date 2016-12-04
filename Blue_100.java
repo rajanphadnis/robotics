@@ -68,19 +68,32 @@ public class Blue_100 extends LinearOpMode {
         sleep(500);
         turnleft(350, .4);
         sleep(500);
-        right.setPower(0.5);
-        left.setPower(0.5);
+        rightpower = 0.5;
+        leftpower = 0.5;
+        right.setPower(rightpower);
+        left.setPower(leftpower);
         Stopwatch(); // start the timer
         Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
+        currentdistance = rangesensor.cmUltrasonic();
         while(hsvlinefront[2] < 0.3) // while front line following sensor does not see the tape
         {
             Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
             currenttime = elapsedTime(); // set variable = to current time
-            if(currenttime > 6) // if 2 seconds have passed
+            if (currenttime > 10) // if 2 seconds have passed
             {
-                fail = true; // program failed due to not finding the line
-                break;
+            fail = true; // program failed due to not finding the line
+            break;
             }
+            if (rangesensor.cmUltrasonic() < currentdistance) {
+            leftpower = leftpower - 0.1;
+            rightpower = rightpower + 0.1;
+            } else if (rangesensor.cmUltrasonic() < currentdistance) {
+            leftpower = leftpower + 0.1;
+            rightpower = rightpower - 0.1;
+            }
+            right.setPower(rightpower);
+            left.setPower(leftpower);
+            currentdistance = rangesensor.cmUltrasonic();
         }
         left.setPower(0);
         right.setPower(0);
@@ -118,6 +131,7 @@ public class Blue_100 extends LinearOpMode {
                 sleep(250); // wait 1/2 second
                 Stopwatch(); // start the timer
                 Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
+                currentdistance = rangesensor.cmUltrasonic();
                 while (hsvlinefront[2] < 0.3) // while front line following sensor does not see the tape
                 {
                     Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
