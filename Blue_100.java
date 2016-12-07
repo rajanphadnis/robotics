@@ -173,9 +173,9 @@ public class Blue_100 extends LinearOpMode {
 
             {
 
-                leftpower = leftpower - 0.0025;
+                leftpower = leftpower - 0.01;
 
-                rightpower = rightpower + 0.0025;
+                rightpower = rightpower + 0.01;
 
             }
 
@@ -183,9 +183,9 @@ public class Blue_100 extends LinearOpMode {
 
             {
 
-                leftpower = leftpower + 0.0025;
+                leftpower = leftpower + 0.01;
 
-                rightpower = rightpower - 0.0025;
+                rightpower = rightpower - 0.01;
 
             }
 
@@ -207,7 +207,7 @@ public class Blue_100 extends LinearOpMode {
 
             sleep(500);// wait 3/4 second
 
-            linefollowright(3); // follow the line for max of 5 seconds
+            linefollowright(10); // follow the line for max of 10 seconds
 
             colorr.enableLed(false);
 
@@ -243,87 +243,15 @@ public class Blue_100 extends LinearOpMode {
             }
 
             slideright(1400, .75);
-            slide.setPower(0);
+            slideleft(1400, .75);
             /*if (!fail) // if not failed
             {
-
-                rightpower = 0.7;
-
-                leftpower = 0.7;
-
-                right.setPower(rightpower);
-
-                left.setPower(leftpower);
-
-                sleep(250); // wait 1/2 second
-
-                Stopwatch(); // start the timer
-
-                Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
-
-                currentdistance = rangesensor.cmUltrasonic();
-
-                while (hsvlinefront[2] < 0.3) // while front line following sensor does not see the tape
-
-                {
-
-                    Color.RGBToHSV(linefront.red() * 8, linefront.green() * 8, linefront.blue() * 8, hsvlinefront); // get color value in HSV
-
-                    currenttime = elapsedTime(); // set variable = to current time
-
-                    if (currenttime > 10) // if 2 seconds have passed
-
-                    {
-
-                        fail = true; // program failed due to not finding the line
-
-                        break;
-
-                    }
-
-                    if (rangesensor.cmUltrasonic() < currentdistance) {
-
-                        leftpower = leftpower - 0.1;
-
-                        rightpower = rightpower + 0.1;
-
-                    }
-
-                    else if (rangesensor.cmUltrasonic() > currentdistance)
-
-                    {
-
-                        leftpower = leftpower + 0.1;
-
-                        rightpower = rightpower - 0.1;
-
-                    }
-
-                    right.setPower(rightpower);
-
-                    left.setPower(leftpower);
-
-                    currentdistance = rangesensor.cmUltrasonic();
-
-                }
-
-                // stop motors
-
-                right.setPower(0);
-
-                left.setPower(0);
-
-                wait(500);
-
-                if (!fail) {
-
-                    // score on second beacon
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                     slideleft(1000, .5);
 
-                    turnleft(400, .5);
+                    turnleft(900, .5);
 
                     forwards(2000, .7);
 
@@ -721,7 +649,7 @@ public class Blue_100 extends LinearOpMode {
 
             }
 
-            else if(hsvlinefront[2] > 0.5 && hsvlineback[2] <= 0.5) // if back doesn't see tape and front does
+            else if(hsvlinefront[2] > 0.4 && hsvlineback[2] <= 0.4) // if back doesn't see tape and front does
 
             {
 
@@ -730,7 +658,7 @@ public class Blue_100 extends LinearOpMode {
 
             }
 
-            else if(hsvlinefront[2] <= 0.5 && hsvlineback[2] > 0.5) // if front doesn't see tape and back does
+            else if(hsvlinefront[2] <= 0.4 && hsvlineback[2] > 0.4) // if front doesn't see tape and back does
 
             {
 
@@ -742,7 +670,7 @@ public class Blue_100 extends LinearOpMode {
 
             }
 
-            else if((hsvlinefront[2] <= 0.5 && hsvlineback[2] <= 0.5) || (hsvlinefront[2] > 0.5 && hsvlineback[2] > 0.5)) // if neither or both see the tape
+            else if((hsvlinefront[2] <= 0.4 && hsvlineback[2] <= 0.4) || (hsvlinefront[2] > 0.4 && hsvlineback[2] > 0.4)) // if neither or both see the tape
 
             {
 
