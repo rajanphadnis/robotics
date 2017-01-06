@@ -115,6 +115,7 @@ public class Blue_102 extends LinearOpMode {
         // set initial value for servos
 
         servor.setPosition(0);
+        servol.setPosition(1);
 
         // turn on color sensors
 
@@ -134,7 +135,7 @@ public class Blue_102 extends LinearOpMode {
 
         sleep(500);
 
-        turnleft(350, .4);
+        turnleft(290, .4);
 
         sleep(500);
 
@@ -170,13 +171,13 @@ public class Blue_102 extends LinearOpMode {
 
             }
 
-            if (rangesensor.cmUltrasonic() < currentdistance)
+            /*if (rangesensor.cmUltrasonic() < currentdistance)
 
             {
 
-                leftpower = leftpower - 0.02;
+                leftpower = leftpower - 0.05;
 
-                rightpower = rightpower + 0.02;
+                rightpower = rightpower + 0.05;
 
             }
 
@@ -184,11 +185,11 @@ public class Blue_102 extends LinearOpMode {
 
             {
 
-                leftpower = leftpower + 0.02;
+                leftpower = leftpower + 0.05;
 
-                rightpower = rightpower - 0.02;
+                rightpower = rightpower - 0.05;
 
-            }
+            }*/
 
             right.setPower(rightpower);
 
@@ -217,7 +218,7 @@ public class Blue_102 extends LinearOpMode {
 
             {
 
-                backwards(200, .4);
+                backwards(175, .4);
 
                 telemetry.addData("color", "blue");
 
@@ -229,7 +230,7 @@ public class Blue_102 extends LinearOpMode {
 
             {
 
-                backwards(400, .4);
+                backwards(500, .4);
 
                 telemetry.addData("color", "red");
 
@@ -254,20 +255,18 @@ public class Blue_102 extends LinearOpMode {
             slideright(2000, .4);
             telemetry.addData("Dog", "fish");
             telemetry.update();
-            slideleft(2000, .4);
+            slideleft(250, .4);
 
             if (!fail) // if not failed
 
             {
+                rightpower = 0.5;
+                leftpower = 0.5;
+                right.setPower(rightpower);
 
-                rightpower = 0.7;
+                left.setPower(leftpower);
+                sleep(2500);
 
-                leftpower = 0.7;
-
-                sleep(2000);
-
-rightpower = 0.25;
-leftpower = 0.25;
                 right.setPower(rightpower);
 
                 left.setPower(leftpower);
@@ -286,7 +285,7 @@ leftpower = 0.25;
 
                     currenttime = elapsedTime(); // set variable = to current time
 
-                    if (currenttime > 10) // if 2 seconds have passed
+                    if (currenttime > 10) // if 2 seconds have passed ITS 10
 
                     {
 
@@ -296,13 +295,13 @@ leftpower = 0.25;
 
                     }
 
-                    if (rangesensor.cmUltrasonic() < currentdistance)
+                    /*if (rangesensor.cmUltrasonic() < currentdistance)
 
                     {
 
-                        leftpower = leftpower - 0.02;
+                        leftpower = leftpower - 0.05; // 0.02
 
-                        rightpower = rightpower + 0.02;
+                        rightpower = rightpower + 0.05;
 
                     }
 
@@ -310,11 +309,11 @@ leftpower = 0.25;
 
                     {
 
-                        leftpower = leftpower + 0.02;
+                        leftpower = leftpower + 0.05;
 
-                        rightpower = rightpower - 0.02;
+                        rightpower = rightpower - 0.05;
 
-                    }
+                    }*/
 
                     right.setPower(rightpower);
 
@@ -343,7 +342,7 @@ leftpower = 0.25;
 
                     {
 
-                        backwards(200, .4);
+                        backwards(175, .4);
 
                         telemetry.addData("color", "blue");
 
@@ -353,7 +352,7 @@ leftpower = 0.25;
 
                     {
 
-                        backwards(400, .4);
+                        backwards(500, .4);
 
                         telemetry.addData("color", "red");
 
@@ -387,9 +386,9 @@ leftpower = 0.25;
 
                         slideleft(1000, .5);
 
-                        turnleft(400, .5);
+                        turnleft(950, .5);
 
-                        forwards(2000, .7);
+                        forwards(5000, .7);
 
                     }
                 }
@@ -506,10 +505,14 @@ leftpower = 0.25;
 
         }
 
+        telemetry.addData("this", "is thie");
+        telemetry.update();
         left.setPower(0);
 
         right.setPower(0);
+        left.setPower(0);
 
+        right.setPower(0);
         right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
