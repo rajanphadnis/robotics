@@ -257,15 +257,15 @@ public class Blue_102 extends LinearOpMode {
             telemetry.update();
             slideleft(250, .4);
 
-            if (!fail) // if not failed
-
-            {
+            //if (!fail) // if not failed
+            fail = false;
+            //{
                 rightpower = 0.5;
                 leftpower = 0.5;
                 right.setPower(rightpower);
 
                 left.setPower(leftpower);
-                sleep(2500);
+                sleep(1500);
 
                 right.setPower(rightpower);
 
@@ -378,7 +378,6 @@ public class Blue_102 extends LinearOpMode {
                     slideleft(2000, .4);
 
 
-                    if (!fail) {
 
                         // score on second beacon
 
@@ -390,10 +389,10 @@ public class Blue_102 extends LinearOpMode {
 
                         forwards(5000, .7);
 
-                    }
+
                 }
 
-            }
+            //}
             idle();
         }
 
