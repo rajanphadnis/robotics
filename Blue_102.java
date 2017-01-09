@@ -485,14 +485,15 @@ public class Blue_102 extends LinearOpMode {
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right.setTargetPosition(ticks);
+
+        left.setTargetPosition(ticks);
 
         right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        right.setTargetPosition(ticks);
-
-        left.setTargetPosition(ticks);
+        
 
         right.setPower(speed);
 
@@ -527,14 +528,15 @@ public class Blue_102 extends LinearOpMode {
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right.setTargetPosition(-ticks);
+
+        left.setTargetPosition(-ticks);
 
         right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        right.setTargetPosition(-ticks);
-
-        left.setTargetPosition(-ticks);
+        
 
         right.setPower(-speed);
 
@@ -565,14 +567,15 @@ public class Blue_102 extends LinearOpMode {
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right.setTargetPosition(-ticks);
+
+        left.setTargetPosition(ticks);
 
         right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        right.setTargetPosition(-ticks);
-
-        left.setTargetPosition(ticks);
+        
 
         right.setPower(-speed);
 
@@ -603,14 +606,15 @@ public class Blue_102 extends LinearOpMode {
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right.setTargetPosition(ticks);
+
+        left.setTargetPosition(-ticks);
 
         right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        right.setTargetPosition(ticks);
-
-        left.setTargetPosition(-ticks);
+        
 
         right.setPower(speed);
 
@@ -639,10 +643,11 @@ public class Blue_102 extends LinearOpMode {
     {
 
         slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slide.setTargetPosition(ticks);
 
         slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        slide.setTargetPosition(ticks);
+        
 
         slide.setPower(speed);
 
@@ -665,10 +670,11 @@ public class Blue_102 extends LinearOpMode {
     {
 
         slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slide.setTargetPosition(-ticks);
 
         slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        slide.setTargetPosition(-ticks);
+        
 
         slide.setPower(-speed);
 
