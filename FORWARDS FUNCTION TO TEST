@@ -3,10 +3,11 @@ public void forwards(int ticks, double speed) // function for forwards
         double changeper = 0.05;
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         right.setTargetPosition(ticks);
         left.setTargetPosition(ticks);
+        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        
         left.setPower(speed);
         right.setPower(speed);
         double rightpower = speed;
